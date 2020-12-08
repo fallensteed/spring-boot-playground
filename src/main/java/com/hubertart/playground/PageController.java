@@ -32,33 +32,12 @@ public class PageController {
     }
 
     @GetMapping("/math/calculate")
-    public String performOperations(
-            @RequestParam(value="operation", required=false, defaultValue = "add") String mathType,
-            @RequestParam("x") Integer x,
-            @RequestParam("y") Integer y
-    ) {
-        switch (mathType) {
-            case "multiply":
-                return (x + " * " + y + " = " + (x * y));
-            case "subtract":
-                return (x + " - " + y + " = " + (x - y));
-            case "divide":
-                return (x + " / " + y + " = " + (x / y));
-            default:
-                return (x + " + " + y + " = " + (x + y));
-        }
+    public String performOperation(MathService mathService){
+        return mathService.performOperation();
     }
 
     @PostMapping("/math/sum")
-    public String performSummation(
-            @RequestParam Integer [] n){
-
-        int total = 0;
-        String output = "";
-        for( int i : n){
-            output += i + " + ";
-            total += i;
-        }
-        return output.substring(0, output.length() - 2) + "= " + total;
+    public String performSummation(MathService mathService){
+        return mathService.performSummation();
     }
 }
