@@ -74,6 +74,13 @@ class PageControllerTests {
                 .andExpect(content().string("4 + 5 + 6 = 15"));
     }
 
+    @Test
+    public void testMathVolumeOf3x4x5RectangularCuboid() throws Exception {
+        this.mvc.perform(post("/math/volume/3/4/5").accept(MediaType.TEXT_PLAIN))
+                .andExpect(status().isOk())
+                .andExpect(content().string("The volume of a 3x4x5 rectangular cuboid is 60"));
+    }
+
 //    @Test
 //    public void testPostMessageEndpoint() throws Exception {
 //        this.mvc.perform(post("/messages"))

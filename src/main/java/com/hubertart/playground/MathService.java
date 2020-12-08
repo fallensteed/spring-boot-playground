@@ -5,6 +5,9 @@ public class MathService {
     private int y;
     private String operation = "add";
     private Integer[] n;
+    private int height;
+    private int width;
+    private int length;
 
     public void setOperation(String operation) {
         this.operation = operation;
@@ -43,5 +46,21 @@ public class MathService {
             total += i;
         }
         return output.substring(0, output.length() - 2) + "= " + total;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public String performVolume() {
+        return "The volume of a " + length + "x" + width + "x" + height + " rectangular cuboid is " + (length * width * height);
     }
 }

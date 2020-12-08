@@ -1,10 +1,7 @@
 package com.hubertart.playground;
 
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,5 +36,10 @@ public class PageController {
     @PostMapping("/math/sum")
     public String performSummation(MathService mathService){
         return mathService.performSummation();
+    }
+
+    @RequestMapping("/math/volume/{length}/{width}/{height}")
+    public String performVolume(MathService mathService){
+        return mathService.performVolume();
     }
 }
