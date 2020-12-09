@@ -8,6 +8,8 @@ public class MathService {
     private int height;
     private int width;
     private int length;
+    private int radius;
+    private String type;
 
     public void setOperation(String operation) {
         this.operation = operation;
@@ -60,7 +62,30 @@ public class MathService {
         this.height = height;
     }
 
-    public String performVolume() {
+    public String performVolumeCalc() {
         return "The volume of a " + length + "x" + width + "x" + height + " rectangular cuboid is " + (length * width * height);
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setRadius(int radius) {
+        this.radius = radius;
+    }
+
+    public String performAreaCalc() {
+        if(type.equals("circle")){
+            if(radius > 0) {
+                String area = "" + Math.PI * Math.pow(radius, 2);
+                return String.format("Area of a circle with a radius of %s is %s", radius, area.substring(0, 8));
+            } else {
+                return "";
+            }
+        } else if(type.equals("rectangle")) {
+            return String.format("Area of a %sx%s rectangle is %s", width, height, (width * height));
+        } else {
+            return "";
+        }
     }
 }

@@ -1,6 +1,5 @@
 package com.hubertart.playground;
 
-import com.hubertart.playground.MathService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -68,8 +67,23 @@ public class MathServiceTests {
         mathService.setLength(3);
         mathService.setWidth(4);
         mathService.setHeight(5);
-        String result = mathService.performVolume();
+        String result = mathService.performVolumeCalc();
         assertEquals("The volume of a 3x4x5 rectangular cuboid is 60", result);
+    }
+
+    @Test public void testAreaCircle() {
+        mathService.setType("circle");
+        mathService.setRadius(4);
+        String result = mathService.performAreaCalc();
+        assertEquals("Area of a circle with a radius of 4 is 50.26548", result);
+    }
+
+    @Test public void testAreaRectangle() {
+        mathService.setType("rectangle");
+        mathService.setHeight(7);
+        mathService.setWidth(4);
+        String result = mathService.performAreaCalc();
+        assertEquals("Area of a 4x7 rectangle is 28", result);
     }
 
 }
