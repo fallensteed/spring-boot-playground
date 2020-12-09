@@ -2,6 +2,11 @@ package com.hubertart.playground;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+
 @RestController
 public class PageController {
 
@@ -55,5 +60,46 @@ public class PageController {
     public String performAreaCalc(MathService mathService){
         return mathService.performAreaCalc();
     }
+
+    @GetMapping("/flights/flight")
+    public Flight getFlight(){
+        Flight flight1 = new Flight();
+        Flight.Ticket ticket1 = new Flight.Ticket();
+        Flight.Ticket.Passenger passenger1 = new Flight.Ticket.Passenger();
+        passenger1.setFirstname("Mary");
+        passenger1.setLastName("Jane");
+        ticket1.setPassenger(passenger1);
+        ticket1.setPrice(200);
+        flight1.setDeparts(new GregorianCalendar(2020, Calendar.DECEMBER, 9, 14, 34).getTime());
+        flight1.setTicket(Arrays.asList(ticket1));
+
+        return flight1;
+    }
+
+    @GetMapping("/flights")
+    public List<Flight> getFlights(){
+        Flight flight1 = new Flight();
+        Flight.Ticket ticket1 = new Flight.Ticket();
+        Flight.Ticket.Passenger passenger1 = new Flight.Ticket.Passenger();
+        passenger1.setFirstname("Mary");
+        passenger1.setLastName("Jane");
+        ticket1.setPassenger(passenger1);
+        ticket1.setPrice(200);
+        flight1.setDeparts(new GregorianCalendar(2020, Calendar.DECEMBER, 9, 14, 34).getTime());
+        flight1.setTicket(Arrays.asList(ticket1));
+
+        Flight flight2 = new Flight();
+        Flight.Ticket ticket2 = new Flight.Ticket();
+        Flight.Ticket.Passenger passenger2 = new Flight.Ticket.Passenger();
+        passenger2.setFirstname("Spider");
+        passenger2.setLastName("Man");
+        ticket2.setPassenger(passenger2);
+        ticket2.setPrice(10);
+        flight2.setDeparts(new GregorianCalendar(2020, Calendar.DECEMBER, 9, 14, 34).getTime());
+        flight2.setTicket(Arrays.asList(ticket2));
+
+        return Arrays.asList(flight1, flight2);
+    }
+
 
 }

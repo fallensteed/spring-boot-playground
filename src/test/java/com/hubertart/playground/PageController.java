@@ -7,6 +7,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -105,5 +107,29 @@ class PageControllerTests {
         this.mvc.perform(request)
                 .andExpect(status().isOk())
                 .andExpect(content().string("Area of a 4x7 rectangle is 28"));
+    }
+
+    @Test
+    public void testGetSingleFlightTicket() throws Exception {
+        this.mvc.perform(
+                get("/flights/flight")
+                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.departs", is("2020-12-09 21:34")))
+                .andExpect(jsonPath("$.ticket[0].price", is(200)));
+    }
+
+    @Test
+    public void testGetTwoFlightTickets() throws Exception {
+        this.mvc.perform(
+                get("/flights")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].departs", is("2020-12-09 21:34")))
+                .andExpect(jsonPath("$[0].ticket[0].price", is(200)))
+                .andExpect(jsonPath("$[1].departs", is("2020-12-09 21:34")))
+                .andExpect(jsonPath("$[1].ticket[0].price", is(10)));
     }
 }
