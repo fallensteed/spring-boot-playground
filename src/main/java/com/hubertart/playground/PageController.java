@@ -71,7 +71,7 @@ public class PageController {
         ticket1.setPassenger(passenger1);
         ticket1.setPrice(200);
         flight1.setDeparts(new GregorianCalendar(2020, Calendar.DECEMBER, 9, 14, 34).getTime());
-        flight1.setTicket(Arrays.asList(ticket1));
+        flight1.setTickets(Arrays.asList(ticket1));
 
         return flight1;
     }
@@ -86,7 +86,7 @@ public class PageController {
         ticket1.setPassenger(passenger1);
         ticket1.setPrice(200);
         flight1.setDeparts(new GregorianCalendar(2020, Calendar.DECEMBER, 9, 14, 34).getTime());
-        flight1.setTicket(Arrays.asList(ticket1));
+        flight1.setTickets(Arrays.asList(ticket1));
 
         Flight flight2 = new Flight();
         Flight.Ticket ticket2 = new Flight.Ticket();
@@ -96,10 +96,13 @@ public class PageController {
         ticket2.setPassenger(passenger2);
         ticket2.setPrice(10);
         flight2.setDeparts(new GregorianCalendar(2020, Calendar.DECEMBER, 9, 14, 34).getTime());
-        flight2.setTicket(Arrays.asList(ticket2));
+        flight2.setTickets(Arrays.asList(ticket2));
 
         return Arrays.asList(flight1, flight2);
     }
 
-
+    @PostMapping("/flights/tickets/total")
+    public String getStrTotalTwoFlights(@RequestBody Flight flights){
+        return "{\n    \"result\": " + (flights.getTickets().get(0).getPrice() + flights.getTickets().get(1).getPrice()) + "\n}";
+    }
 }
