@@ -230,7 +230,7 @@ public class PageControllerTest {
 
     private String getJSON(String path) throws Exception {
         URL url = this.getClass().getResource(path);
-        return new String(Files.readAllBytes(Paths.get(url.getFile())));
+        return new String(Files.readAllBytes(Paths.get(url.toURI())));
     }
 
 
