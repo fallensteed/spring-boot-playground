@@ -105,4 +105,9 @@ public class PageController {
     public String getStrTotalTwoFlights(@RequestBody Flight flights){
         return "{\n    \"result\": " + (flights.getTickets().get(0).getPrice() + flights.getTickets().get(1).getPrice()) + "\n}";
     }
+//    @PostMapping("/flights/tickets")
+//    public Flight getStrTotalTwoFlightsTest(@RequestBody Flight flights){
+//        return flights;
+//    }
+
 }
