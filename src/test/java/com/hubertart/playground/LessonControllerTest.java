@@ -19,8 +19,7 @@ import java.util.HashMap;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -72,5 +71,36 @@ public class LessonControllerTest {
         this.mvc.perform(request)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", instanceOf(Number.class)));
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void testUpdateALesson() throws Exception {
+        Lessons lesson = new Lessons();
+        lesson.setId(5L);
+        lesson.setTitle("First Lesson");
+        lesson.setDeliveredOn(new GregorianCalendar(2020, Calendar.DECEMBER, 9, 14,34).getTime());
+        repository.save(lesson);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        HashMap<String, Object> lessonUpdate = new HashMap<String, Object>(){
+            {
+                put("id", 5);
+                put("title", "Updated First Lesson");
+                put("delivered_on", "2020-12-09 14:34");
+            }
+        };
+
+        String json = objectMapper.writeValueAsString(lessonUpdate);
+
+        MockHttpServletRequestBuilder request = patch("/lessons/5")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+
+        this.mvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title", is("Updated First Lesson")));
     }
 }
