@@ -27,10 +27,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class LessonControllerTest {
 
     @Autowired
-    MockMvc mvc;
+    private MockMvc mvc;
 
     @Autowired
-    LessonRepository repository;
+    private LessonRepository repository;
 
     @Test
     @Transactional
@@ -102,5 +102,48 @@ public class LessonControllerTest {
         this.mvc.perform(request)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title", is("Updated First Lesson")));
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void testFindALessonByTitle() throws Exception {
+        Lessons lesson = new Lessons();
+        lesson.setTitle("SQL");
+        lesson.setDeliveredOn(new GregorianCalendar(2020, Calendar.DECEMBER, 9, 14,34).getTime());
+        repository.save(lesson);
+
+        MockHttpServletRequestBuilder request = get("/lessons/find/SQL")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        this.mvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title", is("SQL")));
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void testFindLessonsBetweenDates() throws Exception {
+        Lessons lesson1 = new Lessons();
+        lesson1.setTitle("SQL Part 1");
+        lesson1.setDeliveredOn(new GregorianCalendar(2020, Calendar.OCTOBER, 9).getTime());
+        repository.save(lesson1);
+        Lessons lesson2 = new Lessons();
+        lesson2.setTitle("SQL Part 2");
+        lesson2.setDeliveredOn(new GregorianCalendar(2020, Calendar.NOVEMBER, 9).getTime());
+        repository.save(lesson2);
+        Lessons lesson3 = new Lessons();
+        lesson3.setTitle("SQL Part 3");
+        lesson3.setDeliveredOn(new GregorianCalendar(2020, Calendar.DECEMBER, 9).getTime());
+        repository.save(lesson3);
+
+        MockHttpServletRequestBuilder request = get("/lessons/between?date1=2020-10-15&date2=2020-12-25")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        this.mvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].title", is("SQL Part 2")))
+                .andExpect(jsonPath("$[1].title", is("SQL Part 3")));
     }
 }

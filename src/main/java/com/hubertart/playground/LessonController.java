@@ -3,6 +3,7 @@ package com.hubertart.playground;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.Optional;
 
 @RestController
@@ -38,5 +39,15 @@ public class LessonController {
     @PatchMapping("/{id}")
     public Lessons update(@RequestBody Lessons lessons) {
         return this.repository.save(lessons);
+    }
+
+    @GetMapping("/find/{title}")
+    public Lessons findByTitle(@PathVariable String title){
+        return this.repository.findByTitle(title);
+    }
+
+    @GetMapping("/between")
+    public Iterable<Lessons> findByDeliveredOn(@RequestParam String date1, @RequestParam String date2){
+        return this.repository.findByDeliveredOn(date1, date2);
     }
 }
