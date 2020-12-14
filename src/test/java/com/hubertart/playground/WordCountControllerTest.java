@@ -20,9 +20,6 @@ public class WordCountControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    @Autowired
-    private WordCounter wordCounter;
-
     @Test
     public void testWordCounter() throws Exception {
         MockHttpServletRequestBuilder request = post("/words/count")
