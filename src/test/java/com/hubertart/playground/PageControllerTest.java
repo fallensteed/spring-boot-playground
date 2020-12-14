@@ -215,7 +215,6 @@ public class PageControllerTest {
                 .andExpect(content().string("{\n    \"result\": 350\n}"));
     }
 
-
     @Test
     public void testInsertTwoFlightTicketsAndGetTotalFileInsert() throws Exception {
         String json = getJSON("/tickets.json");
