@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 public class ConfigClass {
 
     @Bean
-    public WordCounter getCounter(){
-        return new WordCounter();
+    public WordCounter getCounter(WordCountConfig config){
+        return new WordCounter(config);
     }
 
 }

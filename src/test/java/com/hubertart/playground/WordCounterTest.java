@@ -13,10 +13,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class WordCounterTest {
 
     WordCounter wordCounter;
+    WordCountConfig config;
 
     @Test
     public void testInputStringIsReturned() {
-        wordCounter = new WordCounter();
+        wordCounter = new WordCounter(config);
         wordCounter.setString("A brown cow jumps over a brown fox");
         String result = wordCounter.getString();
         assertEquals("A brown cow jumps over a brown fox", result);
@@ -24,7 +25,7 @@ public class WordCounterTest {
 
     @Test
     public void testSplitStringIntoComponents(){
-        wordCounter = new WordCounter();
+        wordCounter = new WordCounter(config);
         wordCounter.setString("A brown cow jumps over a brown fox");
         String[] result = wordCounter.splitString();
         String[] expected = "A brown cow jumps over a brown fox".split(" ");
@@ -33,7 +34,7 @@ public class WordCounterTest {
 
     @Test
     public void testReturnsMapOfComponentsWithCount(){
-        wordCounter = new WordCounter();
+        wordCounter = new WordCounter(config);
         wordCounter.setString("A brown cow jumps over a brown fox");
         Map<String, Integer> result = wordCounter.getCounts();
         HashMap<String, Integer> solution = new HashMap<>();
@@ -50,13 +51,27 @@ public class WordCounterTest {
 
     @Test
     public void testReturnsMapWithoutAnyPunctuation(){
-        wordCounter = new WordCounter();
+        wordCounter = new WordCounter(config);
         wordCounter.setString("this fox, it jumped this cow.");
         Map<String, Integer> result = wordCounter.getCounts();
         HashMap<String, Integer> solution = new HashMap<>();
         solution.put("this", 2);
         solution.put("fox", 1);
         solution.put("it", 1);
+        solution.put("jumped", 1);
+        solution.put("cow", 1);
+        Map<String, Integer> expected = solution;
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void testCaseSensitiveFalseReturn(){
+        wordCounter = new WordCounter(config);
+        wordCounter.setString("The fox JUMPED cow");
+        Map<String, Integer> result = wordCounter.getCounts();
+        HashMap<String, Integer> solution = new HashMap<>();
+        solution.put("the", 1);
+        solution.put("fox", 1);
         solution.put("jumped", 1);
         solution.put("cow", 1);
         Map<String, Integer> expected = solution;
